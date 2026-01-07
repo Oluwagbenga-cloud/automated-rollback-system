@@ -31,13 +31,14 @@ jobs:
     
     - name: validate image tag
       run: |
-       if [ -z "${{ github.sha }}" ]; then
-         echo "Error: Image tag is empty"
-         exit 1
-       fi
+        if [ -z "${{ github.sha }}" ]; then
+          echo "Error: Image tag is empty"
+          exit 1
+        fi
+    
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v4
       with:
         context: .
         push: true
-        tags: ghcr.io/${{ github.repository_owner }}:${{ github.sha }}
+        tags: ghcr.io/${{ github.repository }}:${{ github.sha }}
