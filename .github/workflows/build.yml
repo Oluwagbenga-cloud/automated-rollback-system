@@ -28,11 +28,18 @@ jobs:
     - name: Extract short SHA
       id: vars
       run: echo "SHA_TAG=${GITHUB_SHA::7}" >> $GITHUB_ENV
+    
+    - name: validate image tag
+      run: |
+       if [ -z "${{ github.sha }}" ]; then
+         echo "Error: Image tag is empty"
+         exit 1
+       fi
 
     - name: Debug image tag
       run: |
-       echo "Repo: ${{ github.repository_owner }}"
-       echo "SHA: ${{ github.sha }}"
+       echo Repo: ${{ github.repository_owner }}
+       echo SHA: ${{ github.sha }}
 
     - name: Build and Push Docker Image
       uses: docker/build-push-action@v4
