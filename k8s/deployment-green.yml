@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name:  my-app-green
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: automated-rollback-system
+      version: green
+  template:
+    metadata:
+      labels:
+        app: automated-rollback-system
+        version: green
+    spec:
+      containers:
+      - name: automated-rollback-system
+        image: ghcr.io/gb-in-the-cloud/automated-rollback-system:d308e5b7330b36bcf388f1e5ad438b61224f56f7
+        imagePullPolicy: IfNotPresent
+        ports:
+        - containerPort: 8080
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "250m"
+          limits:
+            memory: "128Mi"
+            cpu: "500m"
